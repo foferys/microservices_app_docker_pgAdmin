@@ -1,5 +1,6 @@
 package com.embarkx.jobms.job;
 
+import com.embarkx.jobms.job.dto.JobWithCompanyDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class JobController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Job>> findAll() {
+    public ResponseEntity<List<JobWithCompanyDTO>> findAll() {
         /**
         * Utilizziamo ResponseEntity per avere un controllo più preciso sulla risposta HTTP
         * (ad esempio sullo status code, intestazioni, ecc.).
@@ -32,8 +33,8 @@ public class JobController {
         * - corpo della risposta contenente la lista dei Job
         */
 
-        // return new ResponseEntity<>(jobService.findAll(), HttpStatus.OK);  //stesso modo di fare come sotto
-        return ResponseEntity.ok(jobService.findAll());
+        return new ResponseEntity<>(jobService.findAll(), HttpStatus.OK);  //stesso modo di fare come sotto
+        // return ResponseEntity.ok(jobService.findAll());
 
     }
 
