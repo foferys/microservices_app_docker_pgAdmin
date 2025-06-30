@@ -55,7 +55,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<!-- dipendenza necessaria se vogliamo che il servizio sia registrato su eureka
+		e quando spring sa questo, cerca le proprità per connettersi dal file application.properties.
+		inoltre il servizio risulta disponibile su eureka anche se non mettaimo i dati nel file perché usa
+		quelli di default-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -63,6 +66,7 @@
 
 	</dependencies>
 
+	<!-- dipendenza necessaria se vogliamo che il servizio sia registrato su eureka -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

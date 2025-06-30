@@ -1,11 +1,13 @@
 package com.embarkx.jobms.job.impl;
 
 
+import com.embarkx.jobms.job.AppConfig;
 import com.embarkx.jobms.job.Job;
 import com.embarkx.jobms.job.JobRepository;
 import com.embarkx.jobms.job.JobService;
 import com.embarkx.jobms.job.dto.JobWithCompanyDTO;
 import com.embarkx.jobms.job.external.Company;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,6 +25,10 @@ public class JobServiceImpl implements JobService {
     
     //ignezione della repository con costruttore
     JobRepository jobRepository;
+
+    //ignettiamo direttamente il restTemplate di cui abbiamo il bean in a AppConfig
+    @Autowired
+    RestTemplate restTemplate;
 
 
     public JobServiceImpl(JobRepository jobRepository) {
@@ -56,8 +62,10 @@ public class JobServiceImpl implements JobService {
         // consente di comunicare con il servizio Company tramite RestTemplate infatti mostra in console il dato richiesto
         //RestTemplate è una classe fornita da Spring che ti permette di fare richieste HTTP (GET, POST, PUT, DELETE, ecc.)
         // da un'app Java verso un altro servizio web REST.
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate(); --> non usiamo piu cosi ma con il bean per avere load-balancing
 
+        // restTemplate e quello ignettato dal bean che abbiamo in appConfig con il load-balancing che consente di usare
+        //il nome del servizio che abbiamo nel discovery anziche mettere tutto l'indirizzo con localhost
         Company company = restTemplate.getForObject("http://localhost:8081/companies/" + job.getCompanyId(), Company.class);
         jobWithCompanyDTO.setCompany(company);
 
