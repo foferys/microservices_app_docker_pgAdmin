@@ -7,6 +7,7 @@ import com.embarkx.jobms.job.JobRepository;
 import com.embarkx.jobms.job.JobService;
 import com.embarkx.jobms.job.dto.JobWithCompanyDTO;
 import com.embarkx.jobms.job.external.Company;
+import com.embarkx.jobms.job.mapper.JobMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -56,8 +57,8 @@ public class JobServiceImpl implements JobService {
 
     private JobWithCompanyDTO convertToDto(Job job) {
 
-        JobWithCompanyDTO jobWithCompanyDTO = new JobWithCompanyDTO();
-        jobWithCompanyDTO.setJob(job);
+        //JobWithCompanyDTO jobWithCompanyDTO = new JobWithCompanyDTO();
+        //jobWithCompanyDTO.setJob(job);
 
         // consente di comunicare con il servizio Company tramite RestTemplate infatti mostra in console il dato richiesto
         //RestTemplate è una classe fornita da Spring che ti permette di fare richieste HTTP (GET, POST, PUT, DELETE, ecc.)
@@ -66,8 +67,9 @@ public class JobServiceImpl implements JobService {
 
         // restTemplate e quello ignettato dal bean che abbiamo in appConfig con il load-balancing che consente di usare
         //il nome del servizio che abbiamo nel discovery anziche mettere tutto l'indirizzo con localhost
-        Company company = restTemplate.getForObject("http://localhost:8081/companies/" + job.getCompanyId(), Company.class);
-        jobWithCompanyDTO.setCompany(company);
+        Company company = restTemplate.getForObject("http://COMPANY-SERVICE:8081/companies/" + job.getCompanyId(), Company.class);
+
+        JobWithCompanyDTO jobWithCompanyDTO = JobMapper.mapToJobWithCompanyDto(job, company);
 
         return jobWithCompanyDTO;
 
@@ -76,14 +78,17 @@ public class JobServiceImpl implements JobService {
     @Override
     public void createJob(Job job) {
 
+
         jobRepository.save(job);
     }
 
     @Override
-    public Job getJobById(Long id) {
+    public JobWithCompanyDTO getJobById(Long id) {
+
+        Job job = jobRepository.findById(id).orElse(null);
 
         //orElse serve per dire se non trovi quello che cerchi ritorna null
-        return jobRepository.findById(id).orElse(null);
+        return convertToDto(job);
     }
 
     @Override

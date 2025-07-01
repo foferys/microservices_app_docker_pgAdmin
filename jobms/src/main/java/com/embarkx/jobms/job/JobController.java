@@ -47,9 +47,9 @@ public class JobController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Job> getJobById(@PathVariable Long id) {    //@PathVariable assicura che la variabile sia assegnata al long id
+    public ResponseEntity<JobWithCompanyDTO> getJobById(@PathVariable Long id) {    //@PathVariable assicura che la variabile sia assegnata al long id
 
-        Job job = jobService.getJobById(id);
+        JobWithCompanyDTO job = jobService.getJobById(id);
 
         if (job != null) {
             return new ResponseEntity<>(job, HttpStatus.OK);
