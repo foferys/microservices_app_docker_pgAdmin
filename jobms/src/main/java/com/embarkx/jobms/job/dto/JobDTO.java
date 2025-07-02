@@ -1,9 +1,11 @@
 package com.embarkx.jobms.job.dto;
 
-import com.embarkx.jobms.job.Job;
 import com.embarkx.jobms.job.external.Company;
+import com.embarkx.jobms.job.external.Review;
 
-public class JobWithCompanyDTO {
+import java.util.List;
+
+public class JobDTO {
     //vogliamo una risposta con job e company come json quindi abbiamo bisogno di questi
     //questi oggetti verranno mostrati agli user
     private Long id;
@@ -14,6 +16,9 @@ public class JobWithCompanyDTO {
     private String location;
 
     private Company company;
+    private List<Review> reviews;
+
+
 
     public Long getId() {
         return id;
@@ -69,5 +74,13 @@ public class JobWithCompanyDTO {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

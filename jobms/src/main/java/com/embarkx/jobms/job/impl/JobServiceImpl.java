@@ -1,18 +1,20 @@
 package com.embarkx.jobms.job.impl;
 
 
-import com.embarkx.jobms.job.AppConfig;
 import com.embarkx.jobms.job.Job;
 import com.embarkx.jobms.job.JobRepository;
 import com.embarkx.jobms.job.JobService;
-import com.embarkx.jobms.job.dto.JobWithCompanyDTO;
+import com.embarkx.jobms.job.dto.JobDTO;
 import com.embarkx.jobms.job.external.Company;
+import com.embarkx.jobms.job.external.Review;
 import com.embarkx.jobms.job.mapper.JobMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,7 +42,7 @@ public class JobServiceImpl implements JobService {
 
 
     @Override
-    public List<JobWithCompanyDTO> findAll() {
+    public List<JobDTO> findAll() {
 
         // Recupera tutti i lavori dal repository
         List<Job> jobs = jobRepository.findAll();
@@ -55,7 +57,7 @@ public class JobServiceImpl implements JobService {
 
     }
 
-    private JobWithCompanyDTO convertToDto(Job job) {
+    private JobDTO convertToDto(Job job) {
 
         //JobWithCompanyDTO jobWithCompanyDTO = new JobWithCompanyDTO();
         //jobWithCompanyDTO.setJob(job);
@@ -69,9 +71,25 @@ public class JobServiceImpl implements JobService {
         //il nome del servizio che abbiamo nel discovery anziche mettere tutto l'indirizzo con localhost
         Company company = restTemplate.getForObject("http://COMPANY-SERVICE:8081/companies/" + job.getCompanyId(), Company.class);
 
-        JobWithCompanyDTO jobWithCompanyDTO = JobMapper.mapToJobWithCompanyDto(job, company);
+        // Recuperiamo dinamicamente tutte le recensioni (Review) associate a un'azienda specifica
+        // tramite una chiamata HTTP al servizio "REVIEW-SERVICE" usando RestTemplate.
 
-        return jobWithCompanyDTO;
+        // Utilizziamo il metodo exchange(), più flessibile rispetto a getForObject():
+        // - getForObject è adatto per ricevere un singolo oggetto;
+        // - exchange è utile quando dobbiamo gestire collezioni generiche (es. List<Review>).
+        ResponseEntity<List<Review>> reviewResponse = restTemplate.exchange(
+                "http://REVIEW-SERVICE:8083/reviews?companyId=" + job.getCompanyId(), // URL del servizio review con companyId come parametro query
+                HttpMethod.GET,        // Specifica che il metodo HTTP è GET
+                null,                  // Non inviamo un corpo della richiesta (request body), quindi passiamo null
+                new ParameterizedTypeReference<List<Review>>() {} // Indichiamo il tipo generico atteso nella risposta (List<Review>)
+        );
+
+        // Estraiamo il corpo della risposta HTTP, che contiene la lista di oggetti Review
+        List<Review> reviews = reviewResponse.getBody();
+
+        JobDTO jobDTO = JobMapper.mapToJobWithCompanyDto(job, company, reviews);
+
+        return jobDTO;
 
     }
 
@@ -83,7 +101,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobWithCompanyDTO getJobById(Long id) {
+    public JobDTO getJobById(Long id) {
 
         Job job = jobRepository.findById(id).orElse(null);
 

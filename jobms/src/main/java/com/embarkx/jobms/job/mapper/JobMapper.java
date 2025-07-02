@@ -1,23 +1,27 @@
 package com.embarkx.jobms.job.mapper;
 
 import com.embarkx.jobms.job.Job;
-import com.embarkx.jobms.job.dto.JobWithCompanyDTO;
+import com.embarkx.jobms.job.dto.JobDTO;
 import com.embarkx.jobms.job.external.Company;
+import com.embarkx.jobms.job.external.Review;
+
+import java.util.List;
 
 public class JobMapper {
     //questa classe contiene un metodo per fare il mapper, impostare in un singolo oggetto job anche l'0oggetto company
 
-    public static JobWithCompanyDTO mapToJobWithCompanyDto (Job job, Company company) {
+    public static JobDTO mapToJobWithCompanyDto (Job job, Company company, List<Review> reviews) {
 
-        JobWithCompanyDTO jobWithCompanyDTO = new JobWithCompanyDTO();
-        jobWithCompanyDTO.setId(job.getId());
-        jobWithCompanyDTO.setTitle(job.getTitle());
-        jobWithCompanyDTO.setDescription(job.getDescription());
-        jobWithCompanyDTO.setMinSalary(job.getMinSalary());
-        jobWithCompanyDTO.setMaxSalary(job.getMaxSalary());
-        jobWithCompanyDTO.setCompany(company);
+        JobDTO jobDTO = new JobDTO();
+        jobDTO.setId(job.getId());
+        jobDTO.setTitle(job.getTitle());
+        jobDTO.setDescription(job.getDescription());
+        jobDTO.setMinSalary(job.getMinSalary());
+        jobDTO.setMaxSalary(job.getMaxSalary());
+        jobDTO.setCompany(company);
+        jobDTO.setReviews(reviews);
 
-        return jobWithCompanyDTO;
+        return jobDTO;
 
     }
 }
