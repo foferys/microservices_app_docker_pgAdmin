@@ -63,10 +63,14 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-
+		<!-- open feign -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
 	</dependencies>
 
-	<!-- dipendenza necessaria se vogliamo che il servizio sia registrato su eureka -->
+<!-- dipendenza necessaria se vogliamo che il servizio sia registrato su eureka -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

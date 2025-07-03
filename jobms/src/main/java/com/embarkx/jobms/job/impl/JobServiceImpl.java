@@ -4,6 +4,8 @@ package com.embarkx.jobms.job.impl;
 import com.embarkx.jobms.job.Job;
 import com.embarkx.jobms.job.JobRepository;
 import com.embarkx.jobms.job.JobService;
+import com.embarkx.jobms.job.clients.CompanyClient;
+import com.embarkx.jobms.job.clients.ReviewClient;
 import com.embarkx.jobms.job.dto.JobDTO;
 import com.embarkx.jobms.job.external.Company;
 import com.embarkx.jobms.job.external.Review;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,13 +36,17 @@ public class JobServiceImpl implements JobService {
     @Autowired
     RestTemplate restTemplate;
 
+    private CompanyClient companyClient;
+    private ReviewClient reviewClient;
 
-    public JobServiceImpl(JobRepository jobRepository) {
+
+
+    public JobServiceImpl(JobRepository jobRepository, CompanyClient companyClient, ReviewClient reviewClient) {
+
         this.jobRepository = jobRepository;
+        this.companyClient = companyClient;
+        this.reviewClient = reviewClient;
     }
-
-
-
 
     @Override
     public List<JobDTO> findAll() {
@@ -69,7 +76,8 @@ public class JobServiceImpl implements JobService {
 
         // restTemplate e quello ignettato dal bean che abbiamo in appConfig con il load-balancing che consente di usare
         //il nome del servizio che abbiamo nel discovery anziche mettere tutto l'indirizzo con localhost
-        Company company = restTemplate.getForObject("http://COMPANY-SERVICE:8081/companies/" + job.getCompanyId(), Company.class);
+        //Company company = restTemplate.getForObject("http://COMPANY-SERVICE:8081/companies/" + job.getCompanyId(), Company.class);
+
 
         // Recuperiamo dinamicamente tutte le recensioni (Review) associate a un'azienda specifica
         // tramite una chiamata HTTP al servizio "REVIEW-SERVICE" usando RestTemplate.
@@ -77,15 +85,20 @@ public class JobServiceImpl implements JobService {
         // Utilizziamo il metodo exchange(), più flessibile rispetto a getForObject():
         // - getForObject è adatto per ricevere un singolo oggetto;
         // - exchange è utile quando dobbiamo gestire collezioni generiche (es. List<Review>).
-        ResponseEntity<List<Review>> reviewResponse = restTemplate.exchange(
-                "http://REVIEW-SERVICE:8083/reviews?companyId=" + job.getCompanyId(), // URL del servizio review con companyId come parametro query
-                HttpMethod.GET,        // Specifica che il metodo HTTP è GET
-                null,                  // Non inviamo un corpo della richiesta (request body), quindi passiamo null
-                new ParameterizedTypeReference<List<Review>>() {} // Indichiamo il tipo generico atteso nella risposta (List<Review>)
-        );
+        //ResponseEntity<List<Review>> reviewResponse = restTemplate.exchange(
+        //        "http://REVIEW-SERVICE:8083/reviews?companyId=" + job.getCompanyId(), // URL del servizio review con companyId come parametro query
+        //        HttpMethod.GET,        // Specifica che il metodo HTTP è GET
+        //        null,                  // Non inviamo un corpo della richiesta (request body), quindi passiamo null
+        //        new ParameterizedTypeReference<List<Review>>() {} // Indichiamo il tipo generico atteso nella risposta (List<Review>)
+        //);
 
         // Estraiamo il corpo della risposta HTTP, che contiene la lista di oggetti Review
-        List<Review> reviews = reviewResponse.getBody();
+        //List<Review> reviews = reviewResponse.getBody();
+
+        //--- stessa cosa dei due sopra ma con openFeign riducendo molto il codice
+        // -- se non usiamo il metodo con RestTemplate possiamo eliminare il @Bean relativo in AppConfig.java
+        Company company = companyClient.getCompany(job.getCompanyId());
+        List<Review> reviews = reviewClient.getReviews(job.getCompanyId());
 
         JobDTO jobDTO = JobMapper.mapToJobWithCompanyDto(job, company, reviews);
 
