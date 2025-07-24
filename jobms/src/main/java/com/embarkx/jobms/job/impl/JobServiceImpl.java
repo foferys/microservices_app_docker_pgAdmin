@@ -116,9 +116,11 @@ public class JobServiceImpl implements JobService {
     @Override
     public JobDTO getJobById(Long id) {
 
+        //orElse serve per dire se non trovi quello che cerchi ritorna null
         Job job = jobRepository.findById(id).orElse(null);
 
-        //orElse serve per dire se non trovi quello che cerchi ritorna null
+        /* convertToDto è il metodo che abbiamo sopra che abbiamo creato per comunicare con il servizio Company tramite RestTemplate
+        * o con openFeign */
         return convertToDto(job);
     }
 

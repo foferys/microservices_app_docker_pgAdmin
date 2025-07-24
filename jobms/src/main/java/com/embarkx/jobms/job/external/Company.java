@@ -1,6 +1,6 @@
 package com.embarkx.jobms.job.external;
 
-
+// questa classe company appartiene a job ed è creata per poter comunicare con il ms di Company, per ricereare la company
 public class Company {
 
 
