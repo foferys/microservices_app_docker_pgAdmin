@@ -32,7 +32,8 @@ public class JobServiceImpl implements JobService {
     //ignezione della repository con costruttore
     JobRepository jobRepository;
 
-    //ignettiamo direttamente il restTemplate di cui abbiamo il bean in a AppConfig
+    //ignettiamo direttamente il restTemplate di cui abbiamo il bean in a AppConfig (questa serve se si usa
+    // il "modo" con RestTemplate e non con openFeign)
     @Autowired
     RestTemplate restTemplate;
 
