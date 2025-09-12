@@ -1,6 +1,7 @@
 # version: '3.8'
 
 services:
+  
   postgres:
     container_name: postgres_container_ms
     image: postgres
@@ -30,6 +31,18 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+
+    ports:
+      # Port used for the Zipkin UI and HTTP Api
+      - 9411:9411
+    # Uncomment to enable debug logging
+    # command: --logging.level.zipkin2=DEBUG
+    networks:
+      - postgres
 
 networks:
   postgres:
