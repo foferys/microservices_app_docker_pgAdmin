@@ -11,10 +11,6 @@ import com.embarkx.jobms.job.external.Company;
 import com.embarkx.jobms.job.external.Review;
 import com.embarkx.jobms.job.mapper.JobMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 

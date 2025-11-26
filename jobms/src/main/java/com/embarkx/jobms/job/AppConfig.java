@@ -8,7 +8,8 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class AppConfig {
 
-    /* configurazione che definisce un bean di tipo RestTemplate,
+    /* --- NECESSARIO SOLO PER COMUNICAZIONE TRA MICROSERVIZI CON metodo con RestTemplate (vedi in serviceImplementation del servizio che serve)
+        configurazione che definisce un bean di tipo RestTemplate,
      * uno strumento fornito da Spring per effettuare chiamate HTTP sincrone verso altri servizi RESTful.
      *
      * L'annotazione @LoadBalanced è fondamentale quando si lavora in un'architettura a microservizi

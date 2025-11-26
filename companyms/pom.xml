@@ -63,6 +63,10 @@
 
 		<!-- dipendenze per usare zipkin -->
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-tracing-bridge-brave</artifactId>
 		</dependency>
@@ -71,6 +75,7 @@
 			<artifactId>zipkin-reporter-brave</artifactId>
 		</dependency>
 		<!-- dipendenze per usare zipkin quando usiamo openfeign per la comunicazione dei dati tra un servizio e l'altro, in questo caso tra job e company -->
+		<!-- feign-micrometer serve perché usiamo in jop ma serve sia li che qui -->
 		<dependency>
 			<groupId>io.github.openfeign</groupId>
 			<artifactId>feign-micrometer</artifactId>
