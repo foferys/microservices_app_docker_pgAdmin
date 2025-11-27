@@ -6,7 +6,7 @@ import com.embarkx.jobms.job.external.Review;
 import java.util.List;
 
 public class JobDTO {
-    //vogliamo una risposta con job e company come json quindi abbiamo bisogno di questi
+    //vogliamo una risposta con job e company come json quindi abbiamo bisogno di questi;
     //questi oggetti verranno mostrati agli user
     private Long id;
     private  String title;

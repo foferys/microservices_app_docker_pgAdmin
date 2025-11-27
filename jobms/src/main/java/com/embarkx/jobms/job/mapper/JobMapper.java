@@ -4,11 +4,11 @@ import com.embarkx.jobms.job.Job;
 import com.embarkx.jobms.job.dto.JobDTO;
 import com.embarkx.jobms.job.external.Company;
 import com.embarkx.jobms.job.external.Review;
-
 import java.util.List;
 
+//questa classe contiene un metodo per fare il mapper, cioè impostare in un singolo oggetto job anche
+//l'ooggetto Company e Review
 public class JobMapper {
-    //questa classe contiene un metodo per fare il mapper, impostare in un singolo oggetto job anche l'0oggetto company
 
     public static JobDTO mapToJobWithCompanyDto (Job job, Company company, List<Review> reviews) {
 

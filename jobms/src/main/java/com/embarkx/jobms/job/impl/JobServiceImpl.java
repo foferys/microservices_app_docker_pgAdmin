@@ -1,6 +1,5 @@
 package com.embarkx.jobms.job.impl;
 
-
 import com.embarkx.jobms.job.Job;
 import com.embarkx.jobms.job.JobRepository;
 import com.embarkx.jobms.job.JobService;
@@ -13,7 +12,6 @@ import com.embarkx.jobms.job.mapper.JobMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,12 +64,12 @@ public class JobServiceImpl implements JobService {
         //JobWithCompanyDTO jobWithCompanyDTO = new JobWithCompanyDTO();
         //jobWithCompanyDTO.setJob(job);
 
-        // consente di comunicare con il servizio Company tramite RestTemplate infatti mostra in console il dato richiesto
-        //RestTemplate è una classe fornita da Spring che ti permette di fare richieste HTTP (GET, POST, PUT, DELETE, ecc.)
-        // da un'app Java verso un altro servizio web REST.
+        //- Consente di comunicare con il servizio Company tramite RestTemplate infatti mostra in console il dato richiesto
+        //- RestTemplate è una classe fornita da Spring che ti permette di fare richieste HTTP (GET, POST, PUT, DELETE, ecc.)
+        //  da un'app Java verso un altro servizio web REST.
         //RestTemplate restTemplate = new RestTemplate(); --> non usiamo piu cosi ma con il bean per avere load-balancing
 
-        // restTemplate e quello ignettato dal bean che abbiamo in appConfig con il load-balancing che consente di usare
+        //restTemplate è quello ignettato dal bean che abbiamo in appConfig con il load-balancing che consente di usare
         //il nome del servizio che abbiamo nel discovery anziche mettere tutto l'indirizzo con localhost
         //Company company = restTemplate.getForObject("http://COMPANY-SERVICE:8081/companies/" + job.getCompanyId(), Company.class);
 
@@ -79,9 +77,9 @@ public class JobServiceImpl implements JobService {
         // Recuperiamo dinamicamente tutte le recensioni (Review) associate a un'azienda specifica
         // tramite una chiamata HTTP al servizio "REVIEW-SERVICE" usando RestTemplate.
 
-        // Utilizziamo il metodo exchange(), più flessibile rispetto a getForObject():
-        // - getForObject è adatto per ricevere un singolo oggetto;
-        // - exchange è utile quando dobbiamo gestire collezioni generiche (es. List<Review>).
+        /* Utilizziamo il metodo exchange(), più flessibile rispetto a getForObject():
+           - getForObject è adatto per ricevere un singolo oggetto;
+           - exchange è utile quando dobbiamo gestire collezioni generiche (es. List<Review>). */
         //ResponseEntity<List<Review>> reviewResponse = restTemplate.exchange(
         //        "http://REVIEW-SERVICE:8083/reviews?companyId=" + job.getCompanyId(), // URL del servizio review con companyId come parametro query
         //        HttpMethod.GET,        // Specifica che il metodo HTTP è GET
@@ -92,8 +90,9 @@ public class JobServiceImpl implements JobService {
         // Estraiamo il corpo della risposta HTTP, che contiene la lista di oggetti Review
         //List<Review> reviews = reviewResponse.getBody();
 
-        //--- stessa cosa dei due sopra ma con openFeign riducendo molto il codice
-        // -- se non usiamo il metodo con RestTemplate possiamo eliminare il @Bean relativo in AppConfig.java
+        /*---- metodo con OPEN FEIGN - comuicazione con Server discovery EUREKA ----*/
+        //---- stessa cosa dei due sopra ma con openFeign riducendo molto il codice
+        //---- se non usiamo il metodo con RestTemplate possiamo eliminare il @Bean relativo in AppConfig.java
         Company company = companyClient.getCompany(job.getCompanyId());
         List<Review> reviews = reviewClient.getReviews(job.getCompanyId());
 
