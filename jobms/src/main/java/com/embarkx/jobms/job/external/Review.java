@@ -1,5 +1,6 @@
 package com.embarkx.jobms.job.external;
 
+// questa classe company appartiene a job ed è creata per poter comunicare con il ms di Review, per ricereare la review
 public class Review {
 
     private Long id;
