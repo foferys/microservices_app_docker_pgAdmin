@@ -90,7 +90,12 @@
 			<artifactId>zipkin-reporter-brave</artifactId>
 		</dependency>
 		<!-- dipendenze per usare zipkin quando usiamo openfeign per la comunicazione dei dati tra un servizio e l'altro, in questo caso tra job e company -->
-		<!-- feign-micrometer serve perché usiamo in jop ma serve sia li che qui -->
+		<!--
+		feign-micrometer è necessario per integrare OpenFeign con Micrometer Tracing.
+		Permette la propagazione dei trace (traceId/spanId) nelle chiamate HTTP tra microservizi.
+		È utilizzato nel servizio Job per inviare i trace, ma deve essere presente anche
+		nel servizio Company per riceverli correttamente e visualizzarli in Zipkin.
+		-->
 		<dependency>
 			<groupId>io.github.openfeign</groupId>
 			<artifactId>feign-micrometer</artifactId>

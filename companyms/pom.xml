@@ -75,7 +75,7 @@
 			<artifactId>zipkin-reporter-brave</artifactId>
 		</dependency>
 		<!-- dipendenze per usare zipkin quando usiamo openfeign per la comunicazione dei dati tra un servizio e l'altro, in questo caso tra job e company -->
-		<!-- feign-micrometer serve perché usiamo in jop ma serve sia li che qui -->
+		<!-- feign-micrometer serve perché usiamo in job ma serve sia li che qui -->
 		<dependency>
 			<groupId>io.github.openfeign</groupId>
 			<artifactId>feign-micrometer</artifactId>

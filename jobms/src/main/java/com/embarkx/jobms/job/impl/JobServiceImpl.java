@@ -23,18 +23,18 @@ public class JobServiceImpl implements JobService {
     
     // private Long nextId = 1L; //tracciamento id, se è null mette 1 e cosi via
     
-    //ignezione della repository con costruttore
-    JobRepository jobRepository;
 
+    //--> METODO REST TEMPLATE <--
     //ignettiamo direttamente il restTemplate di cui abbiamo il bean in a AppConfig (questa serve se si usa
     // il "modo" con RestTemplate e non con openFeign)
     @Autowired
     RestTemplate restTemplate;
 
-    private CompanyClient companyClient;
-    private ReviewClient reviewClient;
 
-
+    // - CLASSI INGETTATE CON COSTRUTTORE  JobRepository, CompanyClient e ReviewClient vengono forniti
+    private final JobRepository jobRepository;
+    private final CompanyClient companyClient;
+    private final ReviewClient reviewClient;
 
     public JobServiceImpl(JobRepository jobRepository, CompanyClient companyClient, ReviewClient reviewClient) {
 
@@ -42,6 +42,8 @@ public class JobServiceImpl implements JobService {
         this.companyClient = companyClient;
         this.reviewClient = reviewClient;
     }
+
+
 
     @Override
     public List<JobDTO> findAll() {
@@ -90,9 +92,10 @@ public class JobServiceImpl implements JobService {
         // Estraiamo il corpo della risposta HTTP, che contiene la lista di oggetti Review
         //List<Review> reviews = reviewResponse.getBody();
 
-        /*---- metodo con OPEN FEIGN - comuicazione con Server discovery EUREKA ----*/
-        //---- stessa cosa dei due sopra ma con openFeign riducendo molto il codice
-        //---- se non usiamo il metodo con RestTemplate possiamo eliminare il @Bean relativo in AppConfig.java
+
+        /*---- metodo con OPEN FEIGN - comuicazione con SERVER DISCOVERY EUREKA ----*/
+        // stessa cosa dei due sopra ma con openFeign riducendo molto il codice
+        // (se non usiamo il metodo con RestTemplate possiamo eliminare il @Bean relativo in AppConfig.java)
         Company company = companyClient.getCompany(job.getCompanyId());
         List<Review> reviews = reviewClient.getReviews(job.getCompanyId());
 
