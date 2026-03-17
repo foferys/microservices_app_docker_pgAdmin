@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 //  Permette di semplificare le chiamate HTTP tra microservizi usando un'interfaccia Java.
 //
 //- In questo caso, il JobService utilizza questo client per ottenere i dati di una Company
-//  tramite il suo ID. Quando viene chiamato il metodo getCompany(), Feign invia automaticamente
-//  una richiesta GET all'endpoint /companies/{id} del microservizio "COMPANY-SERVICE"
+//  tramite il suo ID. Quando viene chiamato il metodo getCompany(),
+//  Feign invia automaticamente una richiesta GET all'endpoint /companies/{id} del microservizio "COMPANY-SERVICE"
 //  e converte la risposta in un oggetto Company.
 @FeignClient(name = "COMPANY-SERVICE")
 public interface CompanyClient {
