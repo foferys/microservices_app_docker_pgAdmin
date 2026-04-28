@@ -32,6 +32,17 @@ public class JobServiceImpl implements JobService {
 
 
     // - CLASSI INGETTATE CON COSTRUTTORE  JobRepository, CompanyClient e ReviewClient vengono forniti
+    /*@Autowired sul campo
+        più rapido da scrivere
+        meno esplicito
+        meno testabile
+        meno pulito
+    * iniezione via costruttore
+        più esplicita
+        più sicura
+        più testabile
+        preferita in Spring Boot
+    * */
     private final JobRepository jobRepository;
     private final CompanyClient companyClient;
     private final ReviewClient reviewClient;
