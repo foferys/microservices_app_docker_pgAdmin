@@ -30,13 +30,13 @@ public class CompanyController {
         this.companyServiceImpl = companyServiceImpl;
     }
     
-    @GetMapping
+    @GetMapping({"", "/"})
     public List<Company> getAllCompany() {
         return companyService.getAllCompany();
     }
 
 
-    @PostMapping
+    @PostMapping({"", "/"})
     public ResponseEntity<String> addCompany(@RequestBody Company company) {
         try {
             
