@@ -87,10 +87,11 @@ public class JobServiceImpl implements JobService {
         //JobWithCompanyDTO jobWithCompanyDTO = new JobWithCompanyDTO();
         //jobWithCompanyDTO.setJob(job);
 
-        //- Consente di comunicare con il servizio Company tramite RestTemplate infatti mostra in console il dato richiesto
+        //- METODO SINCRONO con REST TEMPLATE -- Consente di comunicare con il servizio Company tramite RestTemplate infatti mostra
+        // in console il dato richiesto.
         //- RestTemplate è una classe fornita da Spring che ti permette di fare richieste HTTP (GET, POST, PUT, DELETE, ecc.)
         //  da un'app Java verso un altro servizio web REST.
-        //RestTemplate restTemplate = new RestTemplate(); --> non usiamo piu cosi ma con il bean per avere load-balancing
+        //RestTemplate restTemplate = new RestTemplate(); --> non usiamo più cosi ma con il bean per avere load-balancing
 
         //restTemplate è quello ignettato dal bean che abbiamo in appConfig con il load-balancing che consente di usare
         //il nome del servizio che abbiamo nel discovery anziche mettere tutto l'indirizzo con localhost
@@ -99,7 +100,7 @@ public class JobServiceImpl implements JobService {
 
         // Recuperiamo dinamicamente tutte le recensioni (Review) associate a un'azienda specifica
         // tramite una chiamata HTTP al servizio "REVIEW-SERVICE" usando RestTemplate.
-
+        // --
         /* Utilizziamo il metodo exchange(), più flessibile rispetto a getForObject():
            - getForObject è adatto per ricevere un singolo oggetto;
            - exchange è utile quando dobbiamo gestire collezioni generiche (es. List<Review>). */
@@ -109,7 +110,7 @@ public class JobServiceImpl implements JobService {
         //        null,                  // Non inviamo un corpo della richiesta (request body), quindi passiamo null
         //        new ParameterizedTypeReference<List<Review>>() {} // Indichiamo il tipo generico atteso nella risposta (List<Review>)
         //);
-
+        //--
         // Estraiamo il corpo della risposta HTTP, che contiene la lista di oggetti Review
         //List<Review> reviews = reviewResponse.getBody();
 
