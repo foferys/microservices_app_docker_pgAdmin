@@ -43,6 +43,15 @@ services:
     # command: --logging.level.zipkin2=DEBUG
     networks:
       - postgres
+  # -- mettiamo il docker di rabbitMq per averlo su docker
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - postgres
 
 networks:
   postgres:

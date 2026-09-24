@@ -1,5 +1,7 @@
 package com.embarkx.companyms.company;
 
+import com.embarkx.companyms.dto.ReviewMessage;
+
 import java.util.List;
 
 
@@ -16,6 +18,8 @@ public interface CompanyService {
 
     Company getCompanyById(Long id);
 
+    //questo serve nella classe reviewMessageConsumer p
+    public void updateCompanyRating(ReviewMessage reviewMessage);
    
 
 }   

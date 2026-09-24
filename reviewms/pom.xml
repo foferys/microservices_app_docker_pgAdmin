@@ -86,6 +86,12 @@
 			<artifactId>feign-micrometer</artifactId>
 		</dependency>
 
+		<!-- dipendenza per RABBITMQ  _> anche nel ms di Company perché saranno i 2 ms che interagiranno tra loro -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<!-- ========== DEPENDENCY MANAGEMENT ========== -->

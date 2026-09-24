@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.embarkx.companyms.company.Company;
 import com.embarkx.companyms.company.CompanyRepository;
 import com.embarkx.companyms.company.CompanyService;
+import com.embarkx.companyms.dto.ReviewMessage;
 import org.springframework.stereotype.Service;
 
 
@@ -76,6 +77,11 @@ public class CompanyServiceImpl implements CompanyService {
         //ritorna la company se c'è con quell'id altrimenti ritorna null
         return companyRepository.findById(id).orElse(null);
        
+    }
+
+    @Override
+    public void updateCompanyRating(ReviewMessage reviewMessage) {
+
     }
 
 

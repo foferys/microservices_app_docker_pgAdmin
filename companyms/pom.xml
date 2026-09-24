@@ -88,6 +88,14 @@
 			<artifactId>feign-micrometer</artifactId>
 		</dependency>
 
+		<!-- dipendenza per RABBITMQ  _> anche nel ms di review perché saranno i 2 ms che
+		 interagiranno tra loro con rabbit mq -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+
 	</dependencies>
 
 	<dependencyManagement>
